@@ -39,4 +39,23 @@
     - Copy code between style tag and paste in style-wide css
     - Copy CSS rule from font.google.com and paste as comment in css
     - Add other rule
+  - Prepare Images in images directory
+    - Prepare image for logo
+    - Decrease opacity and prepare image for background
+    - Goto color.adobe.com, upload image and choose the color theme
   
+- On allpages app level folder, create a new folder called templates
+  - Create a folder called allpages inside it
+  - Create common template html as base.html. In base.html press ! and tab. VS code will fill template code
+  - Create header, footer and nav tags
+
+- Add bootstrap and font awesome
+  - Search google for bootstrap CDN. Expand CSS, Copy link and paste in base.html with comment
+  - Search google for font awesome CDN (with bootstrap link). Expand CSS. Copy and paste html in base.html
+
+- Django template code
+  - {% template code%}
+  - {{ template variable }}
+  - {# template comment #}
+
+- In base.html add template code in main section
