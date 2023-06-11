@@ -31,4 +31,12 @@
   - Create static folder under app directory
   - Inside static folder create anoth folder with same name as app i.e allpages
   - inside this allpages create folders: images, css, javascript
+  - create site-wide css inside css with name stylesheet.css
+  - Add Some Google Font
+    - Search google font combination for right google font
+    - Goto fonts.google.com. Search montserrat (click on it & click + next to style), source sans pro and source code pro
+    - Click on top right and @IMPORT
+    - Copy code between style tag and paste in style-wide css
+    - Copy CSS rule from font.google.com and paste as comment in css
+    - Add other rule
   
