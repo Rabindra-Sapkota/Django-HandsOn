@@ -58,4 +58,16 @@
   - {{ template variable }}
   - {# template comment #}
 
-- In base.html add template code in main section
+- In base.html add template code in main section, head section and import as well
+- Create index.html in same level as base.html
+  - Import the template from base.html
+  - To reference content of static folder syntax is: {% static 'path'%}
+  - To point site to home content we have to create a view and point URL to that view
+
+- View
+  - Prepares the page content (stuff to show on the page)
+  - Sends content to the apprioprate template
+  - Client --> urls.py --> views.py --> template.html --> backend
+  - Goto urls.py of project folder. In url patters there is location and place where trafic needs to be send. Also we need to import the view from app. i.e from app_name import views
+  - Add function in view of app_name too that redirects request to html page.
+  - Run server. ```python manage.py runserver```
