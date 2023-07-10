@@ -203,29 +203,29 @@
     - For testing assign unique dummy value and see in browser
 ## Syntax
   - {{ variable }} &#8594;  Variable value is shown
-  - { % tag % } &#8594;     loop, conditional & control logic
+  - {% tag %} &#8594;     loop, conditional & control logic
   - {{ variable|filter }} &#8594; Change format of variable before display
 
 ## Example
   - `<h3> {{ customer.name }} </h3>` # customer is obtained as variable from view
   - `<h3> {{ customer.name|capfirst }} </h3>` # Display making first letter capital
   - <pre>
-        { % for customer in customers % }
+        {% for customer in customers %}
           < li> {{ customer.name }} < /li>
-        { % endfor % }
+        {% endfor %}
     </pre>
 
 ## URL Pattern
   - Used to call api(view) from within code of html
   - Syntax:
-    - `{ % url 'home' % }`  # home is the name defined in path of urlpatterns
-    - `{ % url 'favourite_music' customer.id % }` # This view also has a parameter
+    - `{% url 'home' %}`  # home is the name defined in path of urlpatterns
+    - `{% url 'favourite_music' customer.id %}` # This view also has a parameter
   - Example:
     - <pre>
           < ul>
-              { % for customer in customers % }
-              < li>< a href="{ % url 'favourite_music' customer.id % }">{{ customer.name|capfirst}} < /a>< /li>
-              { % endfor % }
+              {% for customer in customers %}
+              < li>< a href="{% url 'favourite_music' customer.id %}">{{ customer.name|capfirst}} < /a>< /li>
+              {% endfor %}
           < /ul>
       </pre>
 
@@ -241,16 +241,16 @@
     `<head></head>`<br>
     `<body>`<br>
     `<h1>From base</h1>`<br>
-    `{ % block content}`<br>
-    `{ % endblock content}`<br>
+    `{% block content %}`<br>
+    `{% endblock content %}`<br>
     `</body>`<br>
     `</html>`
 
     - In inherited html<br>
-    `{ % extends "base.html" % }`<br>
-    `{ % block content % }`<br>
+    `{% extends "base.html" %}`<br>
+    `{% block content %}`<br>
     `<h2>From template</h3>`<br>
-    `{ % endblock content % }`<br>
+    `{% endblock content %}`<br>
 
 # Project Flow
 - Create project

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Information about: {{ customer.name|capfirst }}</h2>
+    <p>DOB: {{ customer.dob|date:"Y-M-d" }}</p>
+    <p>Gender: {{ customer.gender }}</p>
+    {% if customer.music.all %}
+        <p>Fovourite Musics: </p>
+        <ul>
+            {% for music in customer.music.all %}
+            <li>{{ music }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+{% endblock content %}
