@@ -1,9 +1,11 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
-    <div>
+    <div class="clear">
         <h2>Customer List</h2>
         {% for customer in customers %}
-            <li class="customer_name"><a href="{% url 'customer_info' customer.id %}">{{ customer.name }}</a></li>
+            <li class="customer_name"><a href="{% url 'customer_info' customer.id %}" style="text-decoration: none;font-size: 24px;">{{ customer.name }}</a></li>
         {% endfor %}
+        <img src="{% static 'images/facebook.jpg' %}" alt="Facebook Logo" class="social-icon">
     </div>
 {% endblock content %}

@@ -1,11 +1,15 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="{% static 'style.css' %}" type="text/css">
+        <link rel="icon" href="{% static 'images/icon_image.ico' %}">
         <title>Django Basic</title>
-    </head>
+    </head>    
 
     <body>
-        <h1>Basic Django Tutorial</h1>
+        <img src="{% static 'images/LogoBlack.png' %}" alt="Tech Tutorial Logo" class="logo">
+        <div class="top-header"><h1>Basic Django Tutorial</h1></div>
         {% block content %}
         {% endblock content %}
     </body>

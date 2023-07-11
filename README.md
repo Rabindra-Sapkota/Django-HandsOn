@@ -251,7 +251,20 @@
     `{% block content %}`<br>
     `<h2>From template</h3>`<br>
     `{% endblock content %}`<br>
-
+## Integrate JS and CSS
+  - Javascript, CSS, Logo & Images can be added in HTML
+  - These files are called static files in django and added in staticfolder
+  - static folder should be in top level of project where manage.py is located (static &#8594; main.js, style.css, images/)
+  - On settings.py of project add
+    - `STATIC_URL = static/`
+    - `STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]`
+      - List of directory that django looks for serving static assets
+      - BASE_DIR is directory where manage.py is located
+  - To add static file goto top of base.html and add template
+    -` {% load static %}`
+    - `......`
+    - `<image src="{% static 'images/logo.png' %}">`
+    - After static just add the path of file where it is present
 # Project Flow
 - Create project
 - Create App

@@ -1,15 +1,17 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
-    <h2>Information about: {{ customer.name|capfirst }}</h2>
+    <h2 class="clear">Information about: {{ customer.name|capfirst }}</h2>
     <p>DOB: {{ customer.dob|date:"Y-M-d" }}</p>
     <p>Gender: {{ customer.gender }}</p>
     {% if customer.music.all %}
         <p>Fovourite Musics: </p>
         <ul>
             {% for music in customer.music.all %}
-            <li>{{ music }}</li>
+            <li class="arrow-list">{{ music }}</li>
             {% endfor %}
         </ul>
+        <img src="{% static 'images/twitter.png' %}" alt="Twitter Logo" class="social-icon">
     {% endif %}
 
 {% endblock content %}
