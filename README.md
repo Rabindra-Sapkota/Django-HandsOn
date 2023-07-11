@@ -185,7 +185,7 @@
       <br>
       
       def favourite_music(request, customer_id):
-      `    `return HttpResponse(f'<p>CustomerID: {customer_id}<\p>')
+      `    `return HttpResponse(f'\<p>CustomerID: {customer_id}<\p>')
       `    `'''
       `    `try:
       `    `    customer = Customer.objects.get(id=customer_id)
