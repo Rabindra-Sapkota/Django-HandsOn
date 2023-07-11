@@ -176,7 +176,7 @@
       <br>
 
       def home(request):
-      `    `return HttpResponse('\<p>Home<\p>')
+      `    `return HttpResponse('< p>Home<\p>')
       `    `# customers = Customer.objects.all()
       `    `# return render(request, 'home.html', {'customers': customers})
       `    `# second is template, third is dict parameter to it.
