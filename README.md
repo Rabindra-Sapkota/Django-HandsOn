@@ -25,6 +25,7 @@
     - basic_django/settings.py &#8594; Configuration
     - basic_django/urls.py &#8594; Routes web-request based on URL
 
+- We can rename parent poject folder as basic_django-project to avoid confusions
 - Run webserver
   - `cd basic_django`
   - `python manage.py runserver`
@@ -37,7 +38,7 @@
 - Each App has a specific purpose
 ## Creation
 - Code
-  - `python manage.py startapp favmusics`
+  - `python manage.py startapp favmusics` or `django-admin startapp favmusics`
   - Go inside basic_django/settings.py & append 'favmusics' (or appname.apps.className) to INSTALLED_APPS list
 - Multiple Files will be created after creating app
   - app.py &#8594; Settings specific to app
