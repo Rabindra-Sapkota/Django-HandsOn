@@ -8,9 +8,9 @@
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 <div class="col">
                 <div class="card shadow-sm">
-                    <img src="{% static 'images/twitter.png' %}" width="100%" height="200">
+                    <img src="{{ customer.profile_image.url }}" width="100%" height="200">
                     <div class="card-body">
-                        <p class="card-text">{{ customer.name }}</p>
+                        <p class="card-text">{{ customer.name }} - {{ customer.profile_image.url }}</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
