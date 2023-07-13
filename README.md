@@ -86,6 +86,8 @@
   - In choices, first value is stored in Database & second for display
   - In charfield, max_length is required
   - In imagefield, upload_to is path where db images will be stored. Can be uploaded via admin panel
+  - To display image, we have to append .url of variable in html template. Also code below has to be added in url.py
+    - `urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)`
   - ID is created automatically in table
   - ManyToManyField links with another table in many-to-many relation. To solve it, third table will be created automatically
   - blanks and null attribute if field can store blank or null
