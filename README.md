@@ -26,6 +26,8 @@
     - basic_django/urls.py &#8594; Routes web-request based on URL
 
 - We can rename parent poject folder as basic_django-project to avoid confusions
+- Or we could also go inside our project folder (say: basic_django-project) and create project as :
+  - `django-admin startproject basic_django .`
 - Run webserver
   - `cd basic_django`
   - `python manage.py runserver`
@@ -66,7 +68,7 @@
 - models.py contains set of models for django app
 - model is class that is inherited from django.db.models.Model and defines database fields
 - Example of code in models.py
-  - <pre>
+  - ```
     from django.db import models
     
     class Customer(models.Model):
@@ -77,11 +79,10 @@
         address = models.CharField(blanks=True)
         street_number = models.IntegerField(null=True)
         favourite_music = models.ManyToManyField('music', blanks=True)
-
-    <br>
+    
     class Music(models.Model):
         name = models.CharField(max_length=30)
-    </pre>
+    
   - In choices, first value is stored in Database & second for display
   - In charfield, max_length is required
   - ID is created automatically in table
@@ -93,6 +94,20 @@
     - Other &#8594; BooleanField, DateTimeField
     - Relational &#8594; ForeignKey, ManyToManyField
 
+# Database
+## Setup
+- By default our database will be setup in be stored in `db.sqlite3`
+- To change the database configuration, goto basic_django/settings.py & make following changes (for postgres):
+  ```DATABASES = {
+          'default': {
+              'ENGINE': 'django.db.backends.postgresql',
+              'NAME': 'DB_NAME',
+              'USER': 'DB_USER',
+              'PASSWORD': 'DB_PASSWORD',
+              'HOST': 'DB_HOST',
+              'PORT': 'DB_PORT'
+                    }
+                  }
 ## Migration
 - To add model, add field, remove field, change field
 - Code
@@ -123,39 +138,47 @@
 ## Configure table in Admin
 - On favmusics/admin.py, add below code for admin
 - Sample
-  <pre>
+  ```
   from .models import Customer
-  <br>
-
+  
   @admin.register(Customer)
   class CustomerAdmin(admin.ModelAdmin):
-  `  `pass
-  </pre>
+      pass
+  
 - Pass shows id/repr of class. On clicking that we can see form with all fields
 - If we want to see actual tabular representation in admin, instead of pass use below code
     - `list_display = ['name', 'song']`
     - To display song name instead of id use str in its model to say what to display
-      - <pre>
+      - ```
           def __str__(self):
               return self.name
-      </pre>
+
 # Query data with ORM
   - `python manage.py shell`  &#8594;  Open Interactive shell
-  - `>> from favmusics.models import Customer`
-  - `>> Customer.objects.all()`
-  - `>> customers = Customer.objects.all()`
-  - `>> first_customer = customers[0]`
-  - `>> first_customer.name`
-  - `>> first_customer = Customer.objects.get(id=1)`
-  - `>> first_customer.name`
-  - `>> first_customer = Customer.objects.get(id=99999)`
-  - `>> first_customer.name` &#8594; DoesnotExistError
-  - `>> first_customer = Customer.objects.get(age=23)`
-  - `>> first_customer.name`
-    - get return more than 1 error
-    - To solve this we can use .filter() instead of .get() method
-  - `>> first_customer = Customer.objects.get(id=1)`
-  - `>> first_customer.songs.all()`
+  - ```
+    shell> from favmusics.models import Customer
+    shell> Customer.objects.all()
+    shell> customers = Customer.objects.all()
+    shell> first_customer = customers[0]
+    shell> first_customer.name
+    shell> first_customer = Customer.objects.get(id=1)
+    shell> first_customer.name
+    shell> first_customer = Customer.objects.get(id=99999)
+    shell> first_customer.name --> DoesnotExistError
+    shell> first_customer = Customer.objects.get(age=23)  --> Get return more than 1 error
+    shell> first_customer.name
+    
+  - To solve get return more than 1 error, we can use .filter() instead of .get() method
+    - `Customer.objects.filter(age=23)`
+  - Other filter options are .exclude(), .__starts_with(), .__icontains etc
+    - ```
+      Customer.objects.filter(age=23).exclude(name='rabi')
+      Customer.objects.filter(name__icontains='ab')
+      Customer.objects.filter(name__startswith='ru').exclude(age=23)  
+    - To seach in foreign key within object use object_name.column and append select method to it
+      ```
+      shell> first_customer = Customer.objects.get(id=1)
+      shell> first_customer.songs.all()
     - Shows all song associated with customer
     - Possible due to ManyToMany relation. (work in ForeignKey as well)
 
