@@ -6,7 +6,7 @@ from .models import Customer, Music
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
     list_display = ['name', 'dob', 'gender', 'id']
-    list_filter = ['gender']
+    list_filter = ['gender', 'dob']
     search_fields = ('name__startswith', 'gender')
 
 

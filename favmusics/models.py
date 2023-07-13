@@ -7,6 +7,7 @@ class Customer(models.Model):
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     address = models.TextField(blank=True)
     music = models.ManyToManyField("Music", blank=True)
+    profile_image = models.ImageField(upload_to='profile_images/', null=True)
 
 
     def __str__(self) -> str:
