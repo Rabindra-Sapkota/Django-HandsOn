@@ -85,7 +85,7 @@
         name = models.CharField(max_length=30)
   - In choices, first value is stored in Database & second for display
   - In charfield, max_length is required
-  - In imagefield, upload_to is path where db images will be stored
+  - In imagefield, upload_to is path where db images will be stored. Can be uploaded via admin panel
   - ID is created automatically in table
   - ManyToManyField links with another table in many-to-many relation. To solve it, third table will be created automatically
   - blanks and null attribute if field can store blank or null
