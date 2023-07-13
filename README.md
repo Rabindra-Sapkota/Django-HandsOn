@@ -150,23 +150,6 @@
 - If we want to see actual tabular representation in admin, instead of pass use below code
     - `list_display = ['name', 'song']`
     - To display song name instead of id use str in its model to say what to display
-<<<<<<< HEAD
-<<<<<<< HEAD
-      - <pre>
-          def __str__(self):
-              return self.name
-      </pre>
-    - list_filter is used to control which fields can be used as filter in admin
-    - search_fields can be used to control on which fields search applies to
-    - verbose_name in models.py controls what to display as table name and field name in admin
-
-  - Functions has_delete_permission, has_add_permission, has_change_permission as used to control if user can delete, add or modify records in admin
-=======
-      - ```
-        def __str__(self):
-            return self.name
->>>>>>> 58979c7df5c91ba6ce4ce45c4074b0d061773e8b
-=======
       - ```
         def __str__(self):
             return self.name
@@ -175,8 +158,6 @@
     - `verbose_name` in models.py controls what to display as table name and field name in admin
 
   - Functions `has_delete_permission`, `has_add_permission`, `has_change_permission` as used to control if user can delete, add or modify records in admin
-
->>>>>>> 423fe0d3cbac9365d0420709241b760c56902420
 # Query data with ORM
   - `python manage.py shell`  &#8594;  Open Interactive shell
   - ```
@@ -319,6 +300,14 @@
         .........
       <image src="{% static 'images/logo.png' %}">
     - After static just add the path of file where it is present
+# Desiging Project
+  - Get Appriopriate theme from bootstrap. Example: https://getbootstrap.com/docs/5.3/examples/album/
+  - Rightclick & view page source
+  - Copy the source and paste in home.html
+  - Remove href pointing to local. Add below code in head section:
+    - `    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">`
+  - Modify html to keep desired thing only
+  - Keep single album as a template as other will be filled with django html template
 # Project Flow
 - Create project
 - Create App
