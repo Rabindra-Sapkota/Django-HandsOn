@@ -25,6 +25,9 @@
     - basic_django/settings.py &#8594; Configuration
     - basic_django/urls.py &#8594; Routes web-request based on URL
 
+- We can rename parent poject folder as basic_django-project to avoid confusions
+- Or we could also go inside our project folder (say: basic_django-project) and create project as :
+  - `django-admin startproject basic_django .`
 - Run webserver
   - `cd basic_django`
   - `python manage.py runserver`
@@ -37,7 +40,7 @@
 - Each App has a specific purpose
 ## Creation
 - Code
-  - `python manage.py startapp favmusics`
+  - `python manage.py startapp favmusics` or `django-admin startapp favmusics`
   - Go inside basic_django/settings.py & append 'favmusics' (or appname.apps.className) to INSTALLED_APPS list
 - Multiple Files will be created after creating app
   - app.py &#8594; Settings specific to app
@@ -65,7 +68,7 @@
 - models.py contains set of models for django app
 - model is class that is inherited from django.db.models.Model and defines database fields
 - Example of code in models.py
-  - <pre>
+  - ```
     from django.db import models
     
     class Customer(models.Model):
@@ -76,22 +79,37 @@
         address = models.CharField(blanks=True)
         street_number = models.IntegerField(null=True)
         favourite_music = models.ManyToManyField('music', blanks=True)
-
-    <br>
+        profile_image = models.ImageField(upload_to='images/')
+    
     class Music(models.Model):
         name = models.CharField(max_length=30)
-    </pre>
   - In choices, first value is stored in Database & second for display
   - In charfield, max_length is required
+  - In imagefield, upload_to is path where db images will be stored
   - ID is created automatically in table
   - ManyToManyField links with another table in many-to-many relation. To solve it, third table will be created automatically
   - blanks and null attribute if field can store blank or null
   - Other Fields
     - Textual Data &#8594; CharField, TextField, EmailField, URLField
     - Numeric &#8594; IntegerField, DecimalField
-    - Other &#8594; BooleanField, DateTimeField
+    - Other &#8594; BooleanField, DateTimeField, ImageField
     - Relational &#8594; ForeignKey, ManyToManyField
 
+# Database
+## Setup
+- By default our database will be setup in be stored in `db.sqlite3`
+- To change the database configuration, goto basic_django/settings.py & make following changes (for postgres):
+  ```
+  DATABASES = {
+          'default': {
+              'ENGINE': 'django.db.backends.postgresql',
+              'NAME': 'DB_NAME',
+              'USER': 'DB_USER',
+              'PASSWORD': 'DB_PASSWORD',
+              'HOST': 'DB_HOST',
+              'PORT': 'DB_PORT'
+                    }
+              }
 ## Migration
 - To add model, add field, remove field, change field
 - Code
@@ -122,18 +140,17 @@
 ## Configure table in Admin
 - On favmusics/admin.py, add below code for admin
 - Sample
-  <pre>
+  ```
   from .models import Customer
-  <br>
-
+  
   @admin.register(Customer)
   class CustomerAdmin(admin.ModelAdmin):
-  `  `pass
-  </pre>
+      pass
 - Pass shows id/repr of class. On clicking that we can see form with all fields
 - If we want to see actual tabular representation in admin, instead of pass use below code
     - `list_display = ['name', 'song']`
     - To display song name instead of id use str in its model to say what to display
+<<<<<<< HEAD
       - <pre>
           def __str__(self):
               return self.name
@@ -143,23 +160,36 @@
     - verbose_name in models.py controls what to display as table name and field name in admin
 
   - Functions has_delete_permission, has_add_permission, has_change_permission as used to control if user can delete, add or modify records in admin
+=======
+      - ```
+        def __str__(self):
+            return self.name
+>>>>>>> 58979c7df5c91ba6ce4ce45c4074b0d061773e8b
 # Query data with ORM
   - `python manage.py shell`  &#8594;  Open Interactive shell
-  - `>> from favmusics.models import Customer`
-  - `>> Customer.objects.all()`
-  - `>> customers = Customer.objects.all()`
-  - `>> first_customer = customers[0]`
-  - `>> first_customer.name`
-  - `>> first_customer = Customer.objects.get(id=1)`
-  - `>> first_customer.name`
-  - `>> first_customer = Customer.objects.get(id=99999)`
-  - `>> first_customer.name` &#8594; DoesnotExistError
-  - `>> first_customer = Customer.objects.get(age=23)`
-  - `>> first_customer.name`
-    - get return more than 1 error
-    - To solve this we can use .filter() instead of .get() method
-  - `>> first_customer = Customer.objects.get(id=1)`
-  - `>> first_customer.songs.all()`
+  - ```
+    shell> from favmusics.models import Customer
+    shell> Customer.objects.all()
+    shell> customers = Customer.objects.all()
+    shell> first_customer = customers[0]
+    shell> first_customer.name
+    shell> first_customer = Customer.objects.get(id=1)
+    shell> first_customer.name
+    shell> first_customer = Customer.objects.get(id=99999)
+    shell> first_customer.name --> DoesnotExistError
+    shell> first_customer = Customer.objects.get(age=23)  --> Get return more than 1 error
+    shell> first_customer.name
+  - To solve get return more than 1 error, we can use .filter() instead of .get() method
+    - `Customer.objects.filter(age=23)`
+  - Other filter options are .exclude(), .__starts_with(), .__icontains etc
+    - ```
+      Customer.objects.filter(age=23).exclude(name='rabi')
+      Customer.objects.filter(name__icontains='ab')
+      Customer.objects.filter(name__startswith='ru').exclude(age=23)  
+    - To seach in foreign key within object use object_name.column and append select method to it
+      ```
+      shell> first_customer = Customer.objects.get(id=1)
+      shell> first_customer.songs.all()
     - Shows all song associated with customer
     - Possible due to ManyToMany relation. (work in ForeignKey as well)
 
@@ -171,34 +201,34 @@
   - When url is navigated in browser, it checks pattern in top down order until found. If not found it will return HTTP 404
   - For pattern <> is called capture group to capture value. We can cast and assign value to variable
   - Sample
-    - `from favmusics import views`
-    - `urlpatterns = [path('', views.home, name='home'), path('favouritemusic/<int:customer_id>/', views.favourite_music, name='favourite_music')]`
+    - ```
+      from favmusics import views
+      urlpatterns = [path('', views.home, name='home'), path('favouritemusic/<int:customer_id>/', views.favourite_music, name='favourite_music')]
+      
   - When user navigate to /favouritemusic/1 (api endpoint), 1 is captured & store in customer_id then favourite_music view and called
   - Goto views file of favmusics and define function there
-    - <pre>
+    - 
+      ```
       from .models import Customer
       from django.http import HttpResponse, Http404
-      <br>
-
-      def home(request):
-      `    `return HttpResponse('< p>Home<\p>')
-      `    `# customers = Customer.objects.all()
-      `    `# return render(request, 'home.html', {'customers': customers})
-      `    `# second is template, third is dict parameter to it.
-      `    `# Key will be utilized as variable
       
-      <br>
+      def home(request):
+          return HttpResponse('<p>Home<\p>')
+          # customers = Customer.objects.all()
+          # return render(request, 'home.html', {'customers': customers})
+          # second is template, third is dict parameter to it.
+          # Key will be utilized as variable
       
       def favourite_music(request, customer_id):
-      `    `return HttpResponse(f'< p>CustomerID: {customer_id}<\p>')
-      `    `'''
-      `    `try:
-      `    `    customer = Customer.objects.get(id=customer_id)
-      `    `except Customer.DoesNotExist:
-      `    `    raise Http404('Customer Not Found')
-      `    `return render(request, 'customer_details.html', {'customer': customer})
-      </pre>
+          return HttpResponse(f'<p>CustomerID: {customer_id}<\p>')
 
+          '''
+          try:
+              customer = Customer.objects.get(id=customer_id)
+          except Customer.DoesNotExist:
+              raise Http404('Customer Not Found')
+              return render(request, 'customer_details.html', {'customer': customer})
+          '''
 # Django Template
   - Generate dynamic html pages utilizing variables and template
   - Defined inside app
@@ -214,11 +244,10 @@
 ## Example
   - `<h3> {{ customer.name }} </h3>` # customer is obtained as variable from view
   - `<h3> {{ customer.name|capfirst }} </h3>` # Display making first letter capital
-  - <pre>
-        {% for customer in customers %}
-          < li> {{ customer.name }} < /li>
-        {% endfor %}
-    </pre>
+  - ```
+    {% for customer in customers %}
+        <li> {{ customer.name }} </li>
+    {% endfor %}
 
 ## URL Pattern
   - Used to call api(view) from within code of html
@@ -226,13 +255,12 @@
     - `{% url 'home' %}`  # home is the name defined in path of urlpatterns
     - `{% url 'favourite_music' customer.id %}` # This view also has a parameter
   - Example:
-    - <pre>
-          < ul>
-              {% for customer in customers %}
-              < li>< a href="{% url 'favourite_music' customer.id %}">{{ customer.name|capfirst}} < /a>< /li>
+    - ```
+      <ul>
+          {% for customer in customers %}
+              <li> <a href="{% url 'favourite_music' customer.id %}"> {{ customer.name|capfirst}} </a> </li>
               {% endfor %}
-          < /ul>
-      </pre>
+      </ul>
 
 ## Inheritence
   - With inheritence, we can define base html and extend it to change only the dynamic part in it
@@ -241,34 +269,43 @@
   - All head, customization contents can be added in base template
   - Example:
     - In base html:<br>
-    `<!DOCTYPE HTML>`<br>
-    `<html>`<br>
-    `<head></head>`<br>
-    `<body>`<br>
-    `<h1>From base</h1>`<br>
-    `{% block content %}`<br>
-    `{% endblock content %}`<br>
-    `</body>`<br>
-    `</html>`
+    ```
+    <!DOCTYPE HTML>
+    <html>
+        <head>
+        </head>
 
-    - In inherited html<br>
-    `{% extends "base.html" %}`<br>
-    `{% block content %}`<br>
-    `<h2>From template</h3>`<br>
-    `{% endblock content %}`<br>
+        <body>
+            <h1>From base</h1>
+                {% block content %}
+                {% endblock content %}
+        </body>
+    </html>
+
+  - In inherited html
+      ```
+      {% extends "base.html" %}
+      {% block content %}
+  
+      <h2>From template</h3>
+      {% endblock content %}
+
 ## Integrate JS and CSS
   - Javascript, CSS, Logo & Images can be added in HTML
   - These files are called static files in django and added in staticfolder
   - static folder should be in top level of project where manage.py is located (static &#8594; main.js, style.css, images/)
   - On settings.py of project add
-    - `STATIC_URL = static/`
-    - `STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]`
-      - List of directory that django looks for serving static assets
-      - BASE_DIR is directory where manage.py is located
+    - ```
+      STATIC_URL = static/
+      STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+    - List of directory that django looks for serving static assets
+    - BASE_DIR is directory where manage.py is located
   - To add static file goto top of base.html and add template
-    -` {% load static %}`
-    - `......`
-    - `<image src="{% static 'images/logo.png' %}">`
+    - ```
+      {% load static %}
+        .........
+        .........
+      <image src="{% static 'images/logo.png' %}">
     - After static just add the path of file where it is present
 # Project Flow
 - Create project
