@@ -15,6 +15,8 @@ class Customer(models.Model):
 
 class Music(models.Model):
     name = models.CharField(max_length=50)
+    date_added = models.DateTimeField(auto_now_add=True)
+    remarks = models.TextField()
 
 
     def __str__(self) -> str:

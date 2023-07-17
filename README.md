@@ -246,6 +246,7 @@
     - Create `templates` folder inside favmusic app
     - Create `home.html` & `customer_details.html` inside it as request are being passed to these templates from view.
     - For testing assign unique dummy value and see in browser
+  - If our template is within static then we have to mention that in `TEMPLATE` variable of `settings.py` i.e `TEMPLATE=[BASE_DIR / 'static']`
 ## Syntax
   - {{ variable }} &#8594;  Variable value is shown
   - {% tag %} &#8594;     loop, conditional & control logic
@@ -330,7 +331,7 @@
 ## Static File
 - Rather than putting static files in project level, we can put them inside app and then run collect static to fill static file inside project
 - Steps
-  - Create `static` folder inside individual app
+  - Create `static/appname/` folder inside individual app
   - In `settings.py`
     - ```
       STATIC_ROOT = os.path.join(BASE_DIR, 'static')
@@ -359,17 +360,31 @@
       from django.url import Path
       from . import views
 
-      url_patterns = [path('home', views.home, name='home')]
+      urlpatterns = [path('home', views.home, name='home')]
+      # Comment STATICFILES_DIRS in settings.py
   - Modify content of project level urls.py
     - Remove original imports of app in url
     - ```
       from django.urls import path, include
 
-      url_patterns = [......, path('', include('home.url'))]
+      url_patterns = [......, path('', include('home.urls'))]
       # home is app name
 
-      url_patterns += path('services', include('service.url'))
+      url_patterns += path('services', include('service.urls'))
       # On browser we have path /services/{path_defined_in url_pattern of services}
+# Class Based View
+- We can use class in view to route traffic rather than function
+- If we follow generic naming convention, we don't even need to pass template and parameter for HTML rendering
+- On views.py
+  ```
+  from django.views.generic import TemplateView
+
+  class CustomerView(TemplateView):
+      template_name = 'customer/home.html'
+      extra_context = {} # No need to provide if no variable in html
+- On urls : `path('home', views.CustomerView.as_view(), name='')`
+- For authorization: inherit from class: `django.contrib.auth.mixins.LoginRequiredMixin`
+
 # Project Flow
 - Create project
 - Create App
