@@ -25,7 +25,7 @@
     - basic_django/settings.py &#8594; Configuration
     - basic_django/urls.py &#8594; Routes web-request based on URL
 
-- We can rename parent poject folder as basic_django-project to avoid confusions
+- We can rename parent poject folder as basic_django-project to avoid confusions between project name and main app
 - Or we could also go inside our project folder (say: basic_django-project) and create project as :
   - `django-admin startproject basic_django .`
 - Run webserver
@@ -83,6 +83,7 @@
     
     class Music(models.Model):
         name = models.CharField(max_length=30)
+        date_added = models.DatetTimeField(auto_now_add=True)
   - In choices, first value is stored in Database & second for display
   - In charfield, max_length is required
   - In imagefield, upload_to is path where db images will be stored. Can be uploaded via admin panel
@@ -201,13 +202,13 @@
     - ```
       from favmusics import views
       urlpatterns = [path('', views.home, name='home'), path('favouritemusic/<int:customer_id>/', views.favourite_music, name='favourite_music')]
-      
   - When user navigate to /favouritemusic/1 (api endpoint), 1 is captured & store in customer_id then favourite_music view and called
   - Goto views file of favmusics and define function there
     - 
       ```
       from .models import Customer
       from django.http import HttpResponse, Http404
+      from django.shortcuts import get_object_or_404
       
       def home(request):
           return HttpResponse('<p>Home<\p>')
@@ -225,7 +226,19 @@
           except Customer.DoesNotExist:
               raise Http404('Customer Not Found')
               return render(request, 'customer_details.html', {'customer': customer})
+      
+      # Below is for explaination of get_or_404 only. Customer is class-name
+      def get_customer(request, customer_id):
+          customer_detail = get_object_or_404(Customer, pk=customer_id)
+          return render(request, 'custmer/detail.html', {'customer': customer_detail})
           '''
+  - To make url/site accesible only after login we can add decorator
+    - ```
+      from django.contrib.auth.decorators import login_required
+
+      @login_required(login_url='/admin')
+      def authorized(request):
+          return render(request, 'home/authorized.html', {})
 # Django Template
   - Generate dynamic html pages utilizing variables and template
   - Defined inside app
@@ -245,7 +258,6 @@
     {% for customer in customers %}
         <li> {{ customer.name }} </li>
     {% endfor %}
-
 ## URL Pattern
   - Used to call api(view) from within code of html
   - Syntax:
@@ -265,7 +277,7 @@
   - Other code inherit base html and customize the dynamic part
   - All head, customization contents can be added in base template
   - Example:
-    - In base html:<br>
+    - In base html:
     ```
     <!DOCTYPE HTML>
     <html>
@@ -312,6 +324,52 @@
     - `    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">`
   - Modify html to keep desired thing only
   - Keep single album as a template as other will be filled with django html template
+# Modularization
+- Apps of Django have to be self-contained and easy to migrate
+- We can follow some principle for modularization of App
+## Static File
+- Rather than putting static files in project level, we can put them inside app and then run collect static to fill static file inside project
+- Steps
+  - Create `static` folder inside individual app
+  - In `settings.py`
+    - ```
+      STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+      MEDIA_URL = '/media/'
+      MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+  - In `urls.py`
+    - ```
+      from django.conf import settings
+      from django.conf.urls.static import static
+
+      ...............
+      ................
+
+      url_patterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+      url_patterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+  - Collect static files from app and add to project level static
+    - `python manage.py collectstatic`
+## Template
+  - Store template inside folder: `app/templates/app/`
+    - Helps to know to which app request is redirected in urls.py
+## URL
+  - Create `urls.py` inside app
+  - Content of urls.py
+    - ```
+      from django.url import Path
+      from . import views
+
+      url_patterns = [path('home', views.home, name='home')]
+  - Modify content of project level urls.py
+    - Remove original imports of app in url
+    - ```
+      from django.urls import path, include
+
+      url_patterns = [......, path('', include('home.url'))]
+      # home is app name
+
+      url_patterns += path('services', include('service.url'))
+      # On browser we have path /services/{path_defined_in url_pattern of services}
 # Project Flow
 - Create project
 - Create App
