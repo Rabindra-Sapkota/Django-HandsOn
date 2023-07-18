@@ -429,7 +429,7 @@
       fields = ['name', 'dob', 'gender','profile_image']
       success_url = '/'
       t
-- Add on urls.py and create template for that as well
+- Add on urls.py and create template for that as well(customer_registration.html)
 # Project Flow
 - Create project
 - Create App
