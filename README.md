@@ -373,17 +373,49 @@
       url_patterns += path('services', include('service.urls'))
       # On browser we have path /services/{path_defined_in url_pattern of services}
 # Class Based View
+## Template View
 - We can use class in view to route traffic rather than function
 - If we follow generic naming convention, we don't even need to pass template and parameter for HTML rendering
 - On views.py
   ```
   from django.views.generic import TemplateView
+  from django.contrib.auth.mixins import LoginRequiredMixin
 
   class CustomerView(TemplateView):
       template_name = 'customer/home.html'
-      extra_context = {} # No need to provide if no variable in html
+      extra_context = {"customers": Customer.objects.all()}
+
+  
+  class DetailView(TemplateView, LoginRequiredMixin):
+    template_name = 'favmusics/customer_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        customer_id = self.kwargs['customer_id'] # Passed in url
+        customer = Customer.objects.get(id=customer_id)
+        context["customer"] = customer
+        return context
 - On urls : `path('home', views.CustomerView.as_view(), name='')`
 - For authorization: inherit from class: `django.contrib.auth.mixins.LoginRequiredMixin`
+## Generic View
+- If we use generic view, we can skip database querying as well
+- Example
+  - ```
+    from django.views.generic import ListView
+
+    class CustomerView(ListView):
+      model = Customer
+      # Default Template name: customer_list.html
+      template_name = 'favmusics/home.html'
+      context_object_name = "customers"   # Name of parameter   in template html
+    
+
+    class CustomerDetailView(DetailView):
+      # we have to take parameter as pk in urls.py else won't work
+      model = Customer
+      template_name = 'favmusics/customer_detail.html'
+      context_object_name = 'customer'
+      login_url = '/admin'
 
 # Project Flow
 - Create project
