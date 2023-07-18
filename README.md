@@ -416,7 +416,20 @@
       template_name = 'favmusics/customer_detail.html'
       context_object_name = 'customer'
       login_url = '/admin'
+# Form with CRUD
+## Create
+- Create a view for creating new content. (inheric from CreateView) by passing fields required and success_url
+- Define that in urls and create a template for it as well
+- Views.py
+  ```
+  from django.views.generic import CreateView
 
+  class CustomerCreateView(CreateView):
+      model = Customer
+      fields = ['name', 'dob', 'gender','profile_image']
+      success_url = '/'
+      t
+- Add on urls.py and create template for that as well
 # Project Flow
 - Create project
 - Create App

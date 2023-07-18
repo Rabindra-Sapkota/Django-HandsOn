@@ -1,0 +1,10 @@
+{% extends "favmusics/base.html" %}
+{% load static %}
+
+{% block content %}
+    <form action="{% url 'customer_registration' %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Submit">
+    </form>
+{% endblock content %}

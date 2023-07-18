@@ -4,7 +4,7 @@ from .models import Customer
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 
 # Create your views here.
 '''
@@ -56,3 +56,10 @@ class CustomerDetailView(LoginRequiredMixin, DetailView):
     template_name = 'favmusics/customer_detail.html'
     context_object_name = 'customer'
     login_url = '/admin'
+
+
+class CustomerCreateView(CreateView):
+    model = Customer
+    fields = ['name', 'dob', 'gender', 'profile_image']
+    success_url = '/'
+    template_name = 'favmusics/customer_registration.html'
