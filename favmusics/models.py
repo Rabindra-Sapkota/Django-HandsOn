@@ -24,3 +24,38 @@ class Music(models.Model):
 
     class Meta:
         verbose_name = 'Musician'
+
+class JobHistory(models.Model):
+    pass
+
+class ParsedClaim(models.Model):
+    claim_number = models.CharField(max_length=50)
+    claim_amount = models.FloatField()
+    cpt_code = models.CharField(max_length=30)
+    client_partition = models.CharField(max_length=50)
+    edi_payer_id = models.CharField(max_length=30)
+    service_line = models.CharField(max_length=30)
+
+
+class Payer(models.Model):
+    edi_payer_id = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.edi_payer_id
+
+class ClaimLine(models.Model):
+    claim_number = models.CharField(max_length=50)
+    claim_amount = models.FloatField()
+    cpt_code = models.CharField(max_length=30)
+    client_partition = models.CharField(max_length=50)
+    payer_id = models.ForeignKey(Payer, on_delete=models.RESTRICT)
+
+    def __str__(self):
+        return self.claim_number
+
+    class Meta:
+        unique_together = ['claim_number', 'client_partition']
+
+class ServiceLine(models.Model):
+    claims_line_id = models.ForeignKey(ClaimLine, on_delete=models.RESTRICT)
+    service_line = models.CharField(max_length=30)
