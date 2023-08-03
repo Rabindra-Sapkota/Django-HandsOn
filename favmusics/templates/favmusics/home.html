@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "favmusics/base.html" %}
 {% load static %}
 {% block content %}
     {% for customer in customers %}
@@ -8,9 +8,9 @@
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 <div class="col">
                 <div class="card shadow-sm">
-                    <img src="{{ customer.profile_image.url }}" alt="{{ customer.name}} image" width="100%">
+                    <img src="{{ customer.profile_image.url }}" alt="{{ customer.name }} image" width="100%">
                     <div class="card-body">
-                        <p class="card-text">{{ customer.name }}</p>
+                        <p class="card-text">{{ customer.name|truncatechars:3 }}</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
                                 <a href="{% url 'customer_info' customer.id %}"><button type="button" class="btn btn-sm btn-outline-secondary">View</button></a>
