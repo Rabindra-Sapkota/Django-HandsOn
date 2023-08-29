@@ -416,7 +416,35 @@
       template_name = 'favmusics/customer_detail.html'
       context_object_name = 'customer'
       login_url = '/admin'
-# Form with CRUD
+# Django Form
+- Configure home page or other page to redirect to form page
+- Add its configuration in url, views and also add template html
+## Generic Way
+- On html template of form, add code of HTML to generate form
+- Example
+  - ```
+    <h1>Add Customer</h1>
+    <form action="{% url 'add_employee' %}" method="POST">
+    {% csrf_token %}
+    <label for="employee_name">Name:</label>
+    <input id="employee_name" type="text", name="employee_name">
+
+    <label for="employee_dob">DateOfBirth:</label>
+    <input id="employee_dob" type="date", name="employee_dob">
+
+    <label for="employee_gender">Gender:</label>
+    <select id="employee_gender" type="text", name="employee_gender">
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+    </select>
+
+    <label for="employee_address">Address:</label>
+    <input id="employee_address" type="text", name="employee_address">
+
+    <input type="submit" value="Add">
+    </form>
+
+## Form with CRUD
 ## Create
 - Create a view for creating new content. (inheric from CreateView) by passing fields required and success_url
 - Define that in urls and create a template for it as well

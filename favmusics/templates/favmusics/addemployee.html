@@ -1,0 +1,25 @@
+{% extends "favmusics/base.html" %}
+{% load static %}
+
+{% block content %}
+    <h1>Add Customer</h1>
+    <form action="{% url 'add_employee' %}" method="POST">
+        {% csrf_token %}
+        <label for="employee_name">Name:</label>
+        <input id="employee_name" type="text", name="employee_name">
+    
+        <label for="employee_dob">DateOfBirth:</label>
+        <input id="employee_dob" type="date", name="employee_dob">
+    
+        <label for="employee_gender">Gender:</label>
+        <select id="employee_gender" type="text", name="employee_gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+    
+        <label for="employee_address">Address:</label>
+        <input id="employee_address" type="text", name="employee_address">
+
+        <input type="submit" value="Add">
+    </form>
+{% endblock %}

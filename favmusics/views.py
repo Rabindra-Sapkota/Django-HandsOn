@@ -63,3 +63,7 @@ class CustomerCreateView(CreateView):
     fields = ['name', 'dob', 'gender', 'profile_image']
     success_url = '/'
     template_name = 'favmusics/customer_registration.html'
+
+
+def addemployee(request):
+    return render(request, 'favmusics/addemployee.html', {})
