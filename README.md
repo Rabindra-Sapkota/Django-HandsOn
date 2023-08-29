@@ -456,8 +456,18 @@
       model = Customer
       fields = ['name', 'dob', 'gender','profile_image']
       success_url = '/'
-      t
+      
 - Add on urls.py and create template for that as well(customer_registration.html)
+  - urls.py: `path('/customer/new', views.CustomerCreateView.as_view, name='new_customer_form')`
+  - customer_registration.html
+    ```
+    {% extends 'base.html' %}
+    {% block content %}
+      <form action="{% url 'new_customer_form' %}" method='POST' {% csrf_token %}>
+        {{form}}
+        <button type='submit'>Submit</button>
+      </form>
+    {% endblock %}
 # Project Flow
 - Create project
 - Create App
