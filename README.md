@@ -417,10 +417,10 @@
       context_object_name = 'customer'
       login_url = '/admin'
 # Django Form
-- Configure home page or other page to redirect to form page
-- Add its configuration in url, views and also add template html
+- Configure home page or other page to redirect to form page. (/add_user redirecting its form)
+- Add its configuration in url, views and also add template html (add_user.html)
 ## Generic Way
-- On html template of form, add code of HTML to generate form
+- On html template of form (add_user.html), add code of HTML to generate form
 - Example
   - ```
     <h1>Add Customer</h1>
@@ -443,6 +443,133 @@
 
     <input type="submit" value="Add">
     </form>
+
+## Class Based Form
+- Create a file {app}/forms.py
+- ```
+  from django import forms
+
+  class AddUserForm(forms.Form):
+      employee_name = forms.CharField(label="Name", maxlength=10, widget=forms.Textarea)
+      # It will display as text area
+
+      password = forms.CharField(label="Password", max_length=20, widget=forms.PasswordInput)
+      music = forms.MultipleChoiceField(choices=[('pop', 'POP'), ('old', 'OLD'), ('rap': 'Rap')], widget=forms.CheckboxSelectMultiple)
+      employee_dob = forms.DateField(label="DateOfBirth")
+      employee_gender = forms.ChoiceField(label="Gender", choices=[('Male', 'Male'), ('Female', 'Female')])
+      employee_address = forms.CharField(label="Address", maxlength=100)
+  ```
+- Modify method of views.py to which url is redirected
+
+- ```
+  from .forms import AddUserForm
+
+  def user_add(request):
+      form = AddUserForm()
+      return render(request, 'user/add_user.html', {'add_user_form' : form})    
+  ```
+
+- Modify add_user.html
+- ```
+    <form action="{% url 'add_employee' %}" method="POST">
+        {% csrf_token %}
+        {{ add_user_form }}
+        <input type="submit" value="Add">
+    </form>
+  ```
+
+## Use Captured info from form
+- Handle Post and Get request in views.py
+
+- ```
+  from .forms import AddUserForm
+
+  def user_add(request):
+      if request.method == 'POST':
+          # Create Filled Form
+          filled_form = AddUserForm(request.POST)
+          if filled_form.is_valid():
+              user_note = f'User {filled_form.cleaned_data.get('employee_name')} added Sucessfully'
+              new_form = AddUserForm()
+              return render(request, 'user/add_user.html', {'add_user_form' : new_form, 'note': user_note})
+      else:
+        form = AddUserForm()
+        return render(request, 'user/add_user.html', {'add_user_form' : form})
+  ```
+- Goto add_user.html and add extra info above form
+
+- ```
+  <h1>Add User</h1>
+  <h2>{{ note }}</h2>
+  <form action="{% url 'add_employee' %}" method="POST">
+    {% csrf_token %}
+    {{ add_user_form }}
+    <input type="submit" value="Add">
+  </form>
+  ```
+## Model form
+- Create model to hold information if not present already
+- Modify form.py
+- ```
+  from django import forms
+  from .models import User
+  from .models import Music
+
+  class AddUserForm(forms.ModelForm):
+      music = forms.ModelChoiceField(queryset=Music.objects, empty_label=None, widget=forms.CheckboxSelectMultiple)
+      # forms.RadioSelect for single select like gender
+      class Meta:
+          model = User
+          fields = ['name', 'dob', 'gender', 'address', 'music']
+          labels = {'name': 'Name', 'dob': 'DateOfBirth', 'gender': 'Gender', 'address': 'Address'}
+          widgets = {'address': forms.Textarea}
+## Take file from user
+- Modify user_add.html to accept file
+- ```
+  <h1>Add User</h1>
+  <h2>{{ note }}</h2>
+  <form enctype="multipart/form-data" action="{% url 'add_employee' %}" method="POST">
+    {% csrf_token %}
+    {{ add_user_form }}
+    <input type="submit" value="Add">
+  </form>
+  ```
+
+- Modify forms.py
+
+- ```
+  from django import forms
+  from .models import User
+  from .models import Music
+
+  class AddUserForm(forms.ModelForm):
+      user_image = forms.ImageField()
+      class Meta:
+          model = User
+          fields = ['name', 'dob', 'gender', 'address', 'music']
+          labels = {'name': 'Name', 'dob': 'DateOfBirth', 'gender': 'Gender'}
+          widgets = {'address': forms.Textarea}
+  ```
+
+- Modify view file
+- ```
+  from .forms import AddUserForm
+
+  def user_add(request):
+      if request.method == 'POST':
+          # Create Filled Form
+          filled_form = AddUserForm(request.POST, request.FILES)
+          if filled_form.is_valid():
+              user_note = f'User {filled_form.cleaned_data.get('employee_name')} added Sucessfully'
+              new_form = AddUserForm()
+              return render(request, 'user/add_user.html', {'add_user_form' : new_form, 'note': user_note})
+      else:
+        form = AddUserForm()
+        return render(request, 'user/add_user.html', {'add_user_form' : form})
+  ``` 
+## Save Captured info from form into database
+ 
+- 
 
 ## Form with CRUD
 ## Create
