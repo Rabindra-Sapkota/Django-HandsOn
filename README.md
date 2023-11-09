@@ -370,7 +370,7 @@
       url_patterns = [......, path('', include('home.urls'))]
       # home is app name
 
-      url_patterns += path('services', include('service.urls'))
+      url_patterns.append(path('services', include('service.urls')))
       # On browser we have path /services/{path_defined_in url_pattern of services}
 # Class Based View
 ## Template View
