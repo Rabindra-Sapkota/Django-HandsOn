@@ -12,7 +12,7 @@
 - Create virtual envrionment and setup
   - `python -m venv .venv`
   - Activate virtual environment with crtl+shift+p and choose interpreter
-  - `.venv\Scripts\activate`
+  - `.venv\Scripts\activate or source .venv/bin/activate`
   - `pip install django`
 
 - Clone repo and Go inside project folder
