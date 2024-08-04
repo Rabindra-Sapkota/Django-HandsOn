@@ -418,12 +418,13 @@
       context_object_name = 'customer'
       login_url = '/admin'
 ## Function based View
+- Function is defined that accepts request and returns webpage
 - Example Shown above on views.py
 - Custom HTML page can be rendered using `HttpResponse`
 - We can use render django template along with the context using `render`
 - We can render 404Error using `Http404`
 - We can render form
-- We can use decorator function on it to mandate login before access to webpage
+- We can use decorator `login_required` on it to mandate login before access to webpage
 # Django Form
 - Configure home page or other page to redirect to form page. (/add_user redirecting its form)
 - Add its configuration in url, views and also add template html (add_user.html)
