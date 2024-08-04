@@ -422,6 +422,7 @@
 - Custom HTML page can be rendered
 - We can use render django template along with the context.
 - We can render 404Error
+- We can render form
 - We can use decorator function on it to mandate login before access to webpage
 # Django Form
 - Configure home page or other page to redirect to form page. (/add_user redirecting its form)
