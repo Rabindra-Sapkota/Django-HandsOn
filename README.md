@@ -372,8 +372,9 @@
 
       url_patterns.append(path('services', include('service.urls')))
       # On browser we have path /services/{path_defined_in url_pattern of services}
-# Class Based View
-## Template View
+# Django View
+## Class Based View
+### Template View
 - We can use class in view to route traffic rather than function
 - If we follow generic naming convention, we don't even need to pass template and parameter for HTML rendering
 - On views.py
@@ -397,7 +398,7 @@
         return context
 - On urls : `path('home', views.CustomerView.as_view(), name='')`
 - For authorization: inherit from class: `django.contrib.auth.mixins.LoginRequiredMixin`
-## Generic View
+### Generic View
 - If we use generic view, we can skip database querying as well
 - Example
   - ```
@@ -416,6 +417,12 @@
       template_name = 'favmusics/customer_detail.html'
       context_object_name = 'customer'
       login_url = '/admin'
+## Function based View
+- Example Shown above on views.py
+- Custom HTML page can be rendered
+- We can use render django template along with the context.
+- We can render 404Error
+- We can use decorator function on it to mandate login before access to webpage
 # Django Form
 - Configure home page or other page to redirect to form page. (/add_user redirecting its form)
 - Add its configuration in url, views and also add template html (add_user.html)
