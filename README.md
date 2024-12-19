@@ -14,34 +14,46 @@
   - Activate virtual environment with crtl+shift+p and choose interpreter
   - `.venv\Scripts\activate or source .venv/bin/activate`
   - `pip install django`
+  - `python -m django --version`  # For checking version of Django Installed
 
-- Clone repo and Go inside project folder
-  - `django-admin startproject basic_django`
-  - Above commands creates folders and files in it
-    - manage.py &#8594; Used to run command
-    - basic_django/\_\_init__.py &#8594; Indicate this folder contain Python code
-    - basic_django/wsgi.py &#8594; Hooks for webserver such as Apache or Ngnix
-    - basic_django/asi.py &#8594; Hooks for webserver such as Apache or Ngnix
-    - basic_django/settings.py &#8594; Configuration
-    - basic_django/urls.py &#8594; Routes web-request based on URL
-
-- We can rename parent poject folder as basic_django-project to avoid confusions between project name and main app
-- Or we could also go inside our project folder (say: basic_django-project) and create project as :
-  - `django-admin startproject basic_django .`
+- Clone repo `djangotutorial` and Go inside project folder
+  - `django-admin startproject mysite` or `mkdir djangotutorial; django-admin startproject mysite djangotutorial` or `django-admin startproject mysite .`
+    - **Creates django project named mysite** or **Creates folder djangotutorial then creates project mysite inside djangotutorial** or **Creates project mysite in current folder**
+  - After execution of command below folder structure is created:
+    - ![image](https://github.com/user-attachments/assets/5dd06637-4984-4b23-91b6-bdeeb6de2d0f)
+    - manage.py &#8594; Utility to interact with django in various ways
+    - mysite/ &#8594; Directory that is actual python package for project
+    - mysite/\_\_init__.py &#8594; An empty file that tells Python that this directory should be considered a Python Package
+    - mysite/settings.py &#8594; Settings/Configuration for django project
+    - mysite/urls.py &#8594; Routes web-request based on URL; Table of content of django-powered site
+    - mysite/wsgi.py &#8594; Hooks for webserver such as Apache or Ngnix
+    - mysite/asi.py &#8594; Hooks for webserver such as Apache or Ngnix
 - Run webserver
-  - `cd basic_django`
+  - `cd djangotutorial`
   - `python manage.py runserver`
   - Click on: http://127.0.0.1:8000 to access web page
-# Django APP
+# Create Django APP
+Each application we write in Django consists of a python package that follows a certain convention. Django comes with utility that automatically generates the basic directory of an app, so we can focus on writting code rather than creating directory
+| **Aspect**            | **Django Project**                                                                 | **Django App**                                                                                 |
+|------------------------|------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
+| **Definition**         | The entire web application setup and configuration.                               | A reusable module or component within a project that performs a specific functionality.        |
+| **Scope**             | Serves as the container for multiple apps and settings.                           | Focused on implementing a single feature or functionality.                                    |
+| **Files**              | Includes `settings.py`, `urls.py`, `wsgi.py`, `asgi.py`, `manage.py`.             | Contains models, views, templates, migrations, and other files specific to the app's purpose. |
+| **Reusability**        | Typically specific to the project and not reusable.                              | Can be reused in multiple projects if designed modularly.                                     |
+| **Role**               | Provides global settings and structure for the app(s).                           | Implements specific features like user authentication, blogs, or e-commerce.                 |
+| **Creation Command**   | Created manually or initialized using `django-admin startproject <project_name>`. | Created using `python manage.py startapp <app_name>`.                                         |
+| **Analogy**            | A house containing different rooms and utilities.                                | Individual rooms or utilities like kitchen, bedroom, or garage within the house.             |
+
 - Component within Django Project
 - Portable unit of website functionality
-- It has to be lowercase, no number, dashes or special character and in plular form
-- Folder with set of Python files
+- It has to be lowercase, no number, dashes or special character and in plural form
 - Each App has a specific purpose
 ## Creation
 - Code
-  - `python manage.py startapp favmusics` or `django-admin startapp favmusics`
-  - Go inside basic_django/settings.py & append 'favmusics' (or appname.apps.className) to INSTALLED_APPS list
+  - `python manage.py startapp polls` or `django-admin startapp polls`
+  - The command will create directory `polls` with folder structure as below:
+  - ![image](https://github.com/user-attachments/assets/f85ecea3-e2be-41f9-85d2-a62195c3b575)
+  - Edit file `mysite/settings.py` to append `polls` (or `appname.apps.className`) to list `INSTALLED_APPS`
 - Multiple Files will be created after creating app
   - app.py &#8594; Settings specific to app
   - models.py &#8594; Data layer for database schema
