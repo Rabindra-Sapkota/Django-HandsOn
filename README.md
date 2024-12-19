@@ -55,13 +55,13 @@ Each application we write in Django consists of a python package that follows a 
   - ![image](https://github.com/user-attachments/assets/f85ecea3-e2be-41f9-85d2-a62195c3b575)
   - Edit file `mysite/settings.py` to append `polls` (or `appname.apps.className`) to list `INSTALLED_APPS`
 - Multiple Files will be created after creating app
-  - app.py &#8594; Settings specific to app
-  - models.py &#8594; Data layer for database schema
   - admin.py &#8594; Administrative interface for app
+  - app.py &#8594; Settings specific to app
+  - migrations/ &#8594; Changes to database. Files here are generatetd automatically on running `python manage.py makemigrations`
+  - models.py &#8594; Data layer for database schema
   - urls.py &#8594; URL routing specific to app
-  - views.py &#8594; Logic & Control Flow for handling HTTP request and response
   - test.py &#8594; Unit Test
-  - migrations/ &#8594; Changes to database
+  - views.py &#8594; Logic & Control Flow for handling HTTP request and response
 # Architecture (MVC i.e Model-View-Controller)
 #### URL Pattern (basic_django/view.py) &#8594; Views (favmusics/views.py) &#8594; Templates(favmusics/templates)
 - Views.py can fetch data from database (favmusics/models.py) before passing to template.
