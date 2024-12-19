@@ -21,13 +21,13 @@
     - **Creates django project named mysite** or **Creates folder djangotutorial then creates project mysite inside djangotutorial** or **Creates project mysite in current folder**
   - After execution of command below folder structure is created:
     - ![image](https://github.com/user-attachments/assets/5dd06637-4984-4b23-91b6-bdeeb6de2d0f)
-    - manage.py &#8594; Utility to interact with django in various ways
-    - mysite/ &#8594; Directory that is actual python package for project
-    - mysite/\_\_init__.py &#8594; An empty file that tells Python that this directory should be considered a Python Package
-    - mysite/settings.py &#8594; Settings/Configuration for django project
-    - mysite/urls.py &#8594; Routes web-request based on URL; Table of content of django-powered site
-    - mysite/wsgi.py &#8594; Hooks for webserver such as Apache or Ngnix
-    - mysite/asi.py &#8594; Hooks for webserver such as Apache or Ngnix
+    - `manage.py` &#8594; Utility to interact with django in various ways
+    - `mysite/` &#8594; Directory that is actual python package for project
+    - `mysite/__init__.py` &#8594; An empty file that tells Python that this directory should be considered a Python Package
+    - `mysite/settings.py` &#8594; Settings/Configuration for django project
+    - `mysite/urls.py` &#8594; Routes web-request based on URL; Table of content of django-powered site
+    - `mysite/wsgi.py` &#8594; Hooks for webserver such as Apache or Ngnix
+    - `mysite/asi.py` &#8594; Hooks for webserver such as Apache or Ngnix
 - Run webserver
   - `cd djangotutorial`
   - `python manage.py runserver`
@@ -55,13 +55,13 @@ Each application we write in Django consists of a python package that follows a 
   - ![image](https://github.com/user-attachments/assets/f85ecea3-e2be-41f9-85d2-a62195c3b575)
   - Edit file `mysite/settings.py` to append `polls` (or `appname.apps.className`) to list `INSTALLED_APPS`
 - Multiple Files will be created after creating app
-  - admin.py &#8594; Administrative interface for app
-  - app.py &#8594; Settings specific to app
-  - migrations/ &#8594; Changes to database. Files here are generatetd automatically on running `python manage.py makemigrations`
-  - models.py &#8594; Data layer for database schema
-  - urls.py &#8594; URL routing specific to app
-  - test.py &#8594; Unit Test
-  - views.py &#8594; Logic & Control Flow for handling HTTP request and response
+  - `admin.py` &#8594; Administrative interface for app
+  - `app.py` &#8594; Settings specific to app
+  - `migrations/` &#8594; Changes to database. Files here are generatetd automatically on running `python manage.py makemigrations`
+  - `models.py` &#8594; Data layer for database schema
+  - `urls.py` &#8594; URL routing specific to app. Create is manually
+  - `test.py` &#8594; Unit Test
+  - `views.py` &#8594; Logic & Control Flow for handling HTTP request and response
 # Architecture (MVC i.e Model-View-Controller)
 #### URL Pattern (basic_django/view.py) &#8594; Views (favmusics/views.py) &#8594; Templates(favmusics/templates)
 - Views.py can fetch data from database (favmusics/models.py) before passing to template.
